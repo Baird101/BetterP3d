@@ -121,7 +121,7 @@ var createEnchancedP3DGraphics=function(width,height){
     out.lights();
     
     var vsh=gl.createShader(35633),fsh=gl.createShader(35632);
-    gl.shaderSource(vsh,'#version 300 es\nprecision mediump float;in vec3 v;in vec3 i;in vec3 is;in vec3 ir;in vec3 ic;in vec3 il;out vec3 col;uniform mat4 view;void main(){ic;vec3 p=v.zyx;vec3 theta=ir*0.01745329251;vec3 c=cos(theta);vec3 s=sin(theta);mat3 m=mat3(vec3(s.x*s.z-c.x*c.z*s.y,c.z*s.x+c.x*s.y*s.z,c.x*c.y),vec3(c.x*s.z+c.z*s.x*s.y,c.x*c.z-s.x*s.y*s.z,-c.y*s.x),vec3(c.y*c.z,-c.y*s.z,s.y));col=il*0.00392156862;vec4 proj=view*vec4((m*p)*is+i,1);gl_Position=proj;}');
+    gl.shaderSource(vsh,'#version 300 es\nprecision mediump float;in vec3 v;in vec3 i;in vec3 is;in vec3 ir;in vec3 ic;in vec3 il;out vec3 col;out vec3 pos;uniform mat4 view;void main(){ic;vec3 p=v.zyx;vec3 theta=ir*0.01745329251;vec3 c=cos(theta);vec3 s=sin(theta);mat3 m=mat3(vec3(s.x*s.z-c.x*c.z*s.y,c.z*s.x+c.x*s.y*s.z,c.x*c.y),vec3(c.x*s.z+c.z*s.x*s.y,c.x*c.z-s.x*s.y*s.z,-c.y*s.x),vec3(c.y*c.z,-c.y*s.z,s.y));col=il*0.00392156862;pos=(m*p)*is+i;gl_Position=view*vec4(pos,1);}');
     gl.shaderSource(fsh,'#version 300 es\nprecision mediump float;out vec4 fragColor;in vec3 col;void main(){if(col.r<0.0)discard;fragColor=vec4(col,1);}');
     gl.compileShader(vsh);
     gl.compileShader(fsh);
